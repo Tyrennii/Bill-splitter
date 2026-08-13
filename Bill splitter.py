@@ -10,5 +10,5 @@ def split_bill(total, num_people, tip_percentage):
     result2 = tip_percentage / 100
     return(result1 + (result1 * result2))
 answer = split_bill(total, num_people, tip_percentage)
-print(f"${answer:.2f}")
+print(f"Amount to pay per person: ${answer:.2f}")
 
