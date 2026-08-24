@@ -5,6 +5,8 @@ appmain = Tk()
 appmain.title("Bill Splitter")
 appmain.geometry("1200x600")
 
+tip_var = StringVar(value="0%")
+
 
 Label(appmain, text="Enter the total bill amount", font=("Arial", 12)).grid(row=0, column=0, padx=10, pady=10)
 bill_entry = Entry(appmain)
@@ -37,21 +39,30 @@ Label(appmain, text="Enter the number of people to split the bill with", font=("
 people_entry = Entry(appmain)
 people_entry.grid(row=7, column=0, padx=10, pady=10)
 
+
 def calculate_split():
-    total = float(bill_entry.get())
-    num_people = int(people_entry.get())
-    tip_percentage = float(tip_var.get().strip('%'))
+    try:
+        total = float(bill_entry.get())
+        num_people = int(people_entry.get())
+        tip_percentage = float(tip_var.get().strip('%'))
 
-    result1 = total / num_people
-    result2 = tip_percentage / 100
-    amount_per_person = result1 + (result1 * result2)
+        if num_people <= 0:
+            final_label.config(text="Number of people must be greater than 0")
+            return
 
-    result_label.config(text=f"Amount to pay per person: ${amount_per_person:.2f}")
+        result1 = total / num_people
+        result2 = tip_percentage / 100
+        amount_per_person = result1 + (result1 * result2)
+
+        final_label.config(text=f"Amount to pay per person: ${amount_per_person:.2f}")
+    except ValueError:
+        final_label.config(text="Please enter valid bill and people values")
+
 
 calculate_button = Button(appmain, text="Calculate", command=calculate_split, bg="blue", fg="white")
 calculate_button.grid(row=7, column=1, padx=10, pady=10)
 
-final_label = Label(appmain, text="", relief="sunken", width=30, font=("Arial", 12))
+final_label = Label(appmain, text="", relief="sunken", width=40, font=("Arial", 12))
 final_label.grid(row=8, column=0, padx=10, pady=10)
 
 appmain.mainloop()
